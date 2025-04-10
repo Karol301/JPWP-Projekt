@@ -13,3 +13,10 @@ class CreatingGraph:
     
     def get_graph(self):
         return self.adjacency_list
+    
+    def get_edges(self):
+        edges = []
+        for from_vertex, neighbors in self.adjacency_list.items():
+            for to_vertex, weight in neighbors:
+                edges.append((from_vertex, to_vertex, weight))
+        return edges
