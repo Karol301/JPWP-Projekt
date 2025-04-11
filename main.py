@@ -20,15 +20,13 @@ while True:
             weight = int(input(f"Podaj wagę między '{vertex}' a '{to_vertex}': "))
             graph.add_edge(vertex, to_vertex, weight)
 
-# start_vertex = input("Podaj wierzchołek startowy: ")
-# end_vertex = input("Podaj wierzchołek końcowy: ")
-# if start_vertex == end_vertex:
-#     print("Wierzchołki są takie same")
+start_vertex = input("Podaj wierzchołek startowy: ")
+end_vertex = input("Podaj wierzchołek końcowy: ")
+if start_vertex == end_vertex:
+    print("Wierzchołki są takie same")
 
-# result = solve.shortest_path(start_vertex, end_vertex)
-# path, cost = result
+result = solve.shortest_path(start_vertex, end_vertex)
+path, cost = result
 
-# print(graph.get_graph())
-# print(f"Najkrótsza ścieżka z {start_vertex} do {end_vertex}: {' -> '.join(path)} (koszt: {cost})")
-#print(graph.get_edges())
+print(f"Najkrótsza ścieżka z {start_vertex} do {end_vertex}: {' -> '.join(path)} (koszt: {cost})")
 drawing.draw()

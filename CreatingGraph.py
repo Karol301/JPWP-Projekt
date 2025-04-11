@@ -8,8 +8,9 @@ class CreatingGraph:
         if vertex not in self.adjacency_list:
             self.adjacency_list[vertex] = []
 
-    def add_edge(self, from_verted, to_veretx, weight):
-        self.adjacency_list[from_verted].append((to_veretx, weight))
+    def add_edge(self, from_vertex, to_vertex, weight):
+        self.adjacency_list[from_vertex].append((to_vertex, weight))
+        self.adjacency_list[to_vertex].append((from_vertex, weight))
     
     def get_graph(self):
         return self.adjacency_list
