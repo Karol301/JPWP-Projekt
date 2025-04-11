@@ -1,10 +1,10 @@
 from DijkstraSolver import DijkstraSolver
 from CreatingGraph import CreatingGraph
-from DrawingGraph import DrawingGraph
+from App import App
+import tkinter as tk
 
 graph = CreatingGraph()
 solve = DijkstraSolver(graph)
-drawing = DrawingGraph(graph)
 
 while True:
     vertex = input("Podaj nazwę wierzchołka: ")
@@ -29,4 +29,6 @@ result = solve.shortest_path(start_vertex, end_vertex)
 path, cost = result
 
 print(f"Najkrótsza ścieżka z {start_vertex} do {end_vertex}: {' -> '.join(path)} (koszt: {cost})")
-drawing.draw()
+root = tk.Tk()
+app = App(root, graph)
+root.mainloop()

@@ -9,6 +9,9 @@ class CreatingGraph:
             self.adjacency_list[vertex] = []
 
     def add_edge(self, from_vertex, to_vertex, weight):
+        if from_vertex == to_vertex:
+            print('Niepoprawnie wprowadzone wierzchołki')
+            return
         self.adjacency_list[from_vertex].append((to_vertex, weight))
         self.adjacency_list[to_vertex].append((from_vertex, weight))
     
