@@ -14,6 +14,15 @@ class CreatingGraph:
             return
         self.adjacency_list[from_vertex].append((to_vertex, weight))
         self.adjacency_list[to_vertex].append((from_vertex, weight))
+
+    def delete_vertex(self, vertex):
+        if vertex in self.adjacency_list:
+            self.adjacency_list.pop(vertex)
+        for links in self.adjacency_list.values():
+            for node in links:
+                if node[0] == vertex:
+                    links.remove(node)
+
     
     def get_graph(self):
         return self.adjacency_list
@@ -24,3 +33,9 @@ class CreatingGraph:
             for to_vertex, weight in neighbors:
                 edges.append((from_vertex, to_vertex, weight))
         return edges
+    
+    def get_vertices(self):
+        vertices = []
+        for vertex in self.adjacency_list.keys():
+            vertices.append(vertex)
+        return vertices
