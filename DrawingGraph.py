@@ -58,9 +58,4 @@ class DrawingGraph:
         )
     
         self.canvas.draw()
-
-        # todo:
-        # dodawanie wagi przy nowych krawedziach
-        # zmienic sposob dodawania wierzcholkow
-        # przy dodawaniu paru wierzcholkow po przecinku tworzy sie ich za duzo
-        # po kliknieciu obliczanie dijkstry
+        
