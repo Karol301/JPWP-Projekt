@@ -14,9 +14,8 @@ class DrawingGraph:
         self.canvas.get_tk_widget().pack()
     
     def draw(self):
-        
         self.ax.clear()
-    
+
         G = nx.Graph()
 
         for node in self.graph.get_vertices():
@@ -24,16 +23,10 @@ class DrawingGraph:
 
         for u, v, w in self.graph.get_edges():
             G.add_edge(u, v, weight=w)
-    
-        self.pos = {node: pos for node, pos in self.pos.items() if node in G.nodes}
-        if self.pos:
-            # Keep old nodes fixed, layout new ones
-            fixed_nodes = list(self.pos.keys())
-            self.pos = nx.spring_layout(G, pos=self.pos, fixed=fixed_nodes, seed=42)
-        else:
-            # First time drawing — calculate all positions
-            self.pos = nx.spring_layout(G, seed=42)
-    
+
+        # random_layout nie wspiera pos/fixed/seed — trzeba go użyć bez tych parametrów
+        self.pos = nx.random_layout(G)
+
         nx.draw(
             G,
             pos=self.pos,
@@ -44,7 +37,7 @@ class DrawingGraph:
             node_size=1500,
             font_size=16
         )
-    
+
         edge_labels = nx.get_edge_attributes(G, 'weight')
         nx.draw_networkx_edge_labels(
             G,
@@ -56,6 +49,7 @@ class DrawingGraph:
             font_color='black',
             rotate=False
         )
-    
+
         self.canvas.draw()
+
         
