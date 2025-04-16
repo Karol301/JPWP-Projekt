@@ -1,7 +1,6 @@
 import networkx as nx
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-# this is matplotlib embedded in Tkinter
 
 class DrawingGraph:
     def __init__(self, graph, parent_frame):
@@ -24,7 +23,6 @@ class DrawingGraph:
         for u, v, w in self.graph.get_edges():
             G.add_edge(u, v, weight=w)
 
-        # random_layout nie wspiera pos/fixed/seed — trzeba go użyć bez tych parametrów
         self.pos = nx.random_layout(G)
 
         nx.draw(
