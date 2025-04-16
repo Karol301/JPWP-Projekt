@@ -33,21 +33,12 @@ class App:
         left_frame.grid(row=0, column=0, sticky="w", padx=(0, 20))
 
         tk.Label(left_frame, text="Dodaj wierzchołek:").grid(row=0, column=0, sticky='w')
-        self.vertex_entry = tk.Entry(left_frame, width=10)
+        self.vertex_entry = tk.Entry(left_frame, width=15)
         self.vertex_entry.grid(row=0, column=1, padx=5)
-
-        tk.Label(left_frame, text="Połączony z:").grid(row=0, column=2, sticky='w')
-        self.edges_entry = tk.Entry(left_frame, width=15)
-        self.edges_entry.grid(row=0, column=3, padx=5)
-
-        tk.Label(left_frame, text="Waga:").grid(row=0, column=4, sticky='w')
-        self.weight_entry = tk.Entry(left_frame, width=5)
-        self.weight_entry.grid(row=0, column=5, padx=5)
-        self.weight_entry.insert(0, "1")
-
+        
         add_btn = tk.Button(left_frame, text="➕ Dodaj", command=self.add_vertex, width=10)
-        add_btn.grid(row=0, column=6, padx=10)
-
+        add_btn.grid(row=0, column=2, padx=10)
+        
         # Usuwanie wierzchołka
         tk.Label(left_frame, text="Usuń wierzchołek:").grid(row=1, column=0, sticky='w', pady=(10, 0))
         self.delete_entry = tk.Entry(left_frame, width=15)
@@ -56,9 +47,30 @@ class App:
         del_btn = tk.Button(left_frame, text="🗑️ Usuń", command=self.del_vertex, width=10)
         del_btn.grid(row=1, column=2, padx=10, pady=(10, 0))
 
+
+        # === ŚRODEK - ŁĄCZENIE ===
+        mid_frame = tk.LabelFrame(form_frame, text="Łączenie wierzchołków", padx=10, pady=10)
+        mid_frame.grid(row=0, column=1, sticky="w", padx=(0, 20))
+
+        tk.Label(mid_frame, text="Połącz:").grid(row=0, column=3, sticky='w')
+        self.edge_entry1 = tk.Entry(mid_frame, width=15)
+        self.edge_entry1.grid(row=0, column=4, padx=5)
+
+        tk.Label(mid_frame, text="z:").grid(row=1, column=3, sticky='w')
+        self.edge_entry2 = tk.Entry(mid_frame, width=15)
+        self.edge_entry2.grid(row=1, column=4, padx=5)        
+
+        tk.Label(mid_frame, text="Waga:").grid(row=0, column=5, sticky='w')
+        self.weight_entry = tk.Entry(mid_frame, width=5)
+        self.weight_entry.grid(row=0, column=6, padx=5)
+        self.weight_entry.insert(0, "1")
+
+        edge_btn = tk.Button(mid_frame, text="➕ Połącz", command=self.add_edge, width=10)
+        edge_btn.grid(row=1, column=6, padx=10)
+
         # === PRAWA STRONA – DIJKSTRA ===
         right_frame = tk.LabelFrame(form_frame, text="Najkrótsza ścieżka (Dijkstra)", padx=10, pady=10)
-        right_frame.grid(row=0, column=1, sticky="e")
+        right_frame.grid(row=0, column=2, sticky="e")
 
         tk.Label(right_frame, text="Początek:").grid(row=0, column=0)
         self.start_entry = tk.Entry(right_frame, width=10)
@@ -86,39 +98,40 @@ class App:
             self.path_label.config(text='Wprowadź tylko jeden wierzchołek', fg='red')
             return
 
-        edges = self.edges_entry.get().split(',') if self.edges_entry.get() else []
-        weight = self.weight_entry.get().strip()
+        self.graph.add_vertex(node)
 
+        self.displayGraph()
+        self.path_label.config(text="Dodano wierzchołek", fg="green")
+
+    def del_vertex(self):
+        node = self.delete_entry.get()
+        self.graph.delete_vertex(node.strip())
+        self.displayGraph()
+        self.path_label.config(text="Usunięto wierzchołek.", fg="green")
+
+    def add_edge(self):
+        node1 = self.edge_entry1.get().strip()
+        node2 = self.edge_entry2.get().strip()
+        if node1 == '' or node2 == '':
+            self.path_label.config(text="Uzupełnij wierzchołki do połączenia", fg='red')
+            return
+        if node1 == node2:
+            self.path_label.config(text="Podaj różne wierzchołki do połączenia", fg='red')
+            return
+        if (node1 not in self.graph.adjacency_list) or (node2 not in self.graph.adjacency_list):
+            self.path_label.config(text="Podaj istniejące wierzchołki", fg='red')
+            return
+        weight = self.weight_entry.get()
         try:
             weight = float(weight)
         except ValueError:
             self.path_label.config(text='Waga musi być liczbą', fg='red')
             return
-
-        self.graph.add_vertex(node)
-
-        for edge in edges:
-            edge = edge.strip()
-            if edge == node or edge == "":
-                self.path_label.config(text='Niepoprawnie wprowadzone wierzchołki', fg='red')
-                return
-            if edge not in self.graph.adjacency_list:
-                self.path_label.config(text=f'Wierzchołek "{edge}" nie istnieje', fg='red')
-                return
-
-        for edge in edges:
-            self.graph.add_edge(node, edge.strip(), weight)
-
+        
+        self.graph.add_edge(node1, node2, weight)
         self.displayGraph()
-        self.path_label.config(text="Dodano wierzchołek i krawędzie.", fg="green")
-
-    def del_vertex(self):
-        nodes_to_delete = self.delete_entry.get().split(',')
-        for node in nodes_to_delete:
-            self.graph.delete_vertex(node.strip())
-        self.displayGraph()
-        self.path_label.config(text="Usunięto wierzchołek(i).", fg="green")
-
+        self.path_label.config(text="Dodano krawędź", fg="green")
+    
     def calc_path(self):
         start = self.start_entry.get().strip()
         end = self.end_entry.get().strip()
