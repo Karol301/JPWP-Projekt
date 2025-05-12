@@ -1,9 +1,9 @@
 from DijkstraSolver import DijkstraSolver
-from CreatingGraph import CreatingGraph
+from Graph import Graph
 from App import App
 import tkinter as tk
 
-graph = CreatingGraph()
+graph = Graph()
 solve = DijkstraSolver(graph)
 
 root = tk.Tk()

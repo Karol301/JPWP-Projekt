@@ -1,19 +1,28 @@
 import networkx as nx
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import tkinter as tk
 
 class DrawingGraph:
     def __init__(self, graph, parent_frame):
         self.graph = graph
         self.pos = {}
 
-        self.figure = Figure(figsize=(10, 5))
+        self.figure = Figure(figsize=(10, 6), dpi=100)
         self.ax = self.figure.add_subplot(111)
+        self.figure.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         self.canvas = FigureCanvasTkAgg(self.figure, master=parent_frame)
-        self.canvas.get_tk_widget().pack()
+        self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
     
     def draw(self):
         self.ax.clear()
+
+        self.ax.set_xlim([-1.2, 1.2])
+        self.ax.set_ylim([-1.2, 1.2])
+        
+        self.ax.set_xticks([])
+        self.ax.set_yticks([])
+        self.ax.set_axis_off()
 
         G = nx.Graph()
 
@@ -23,7 +32,7 @@ class DrawingGraph:
         for u, v, w in self.graph.get_edges():
             G.add_edge(u, v, weight=w)
 
-        self.pos = nx.random_layout(G)
+        self.pos = nx.circular_layout(G)
 
         nx.draw(
             G,

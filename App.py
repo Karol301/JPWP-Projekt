@@ -9,7 +9,7 @@ class App:
         self.graph = graph
         self.solver = DijkstraSolver(graph)
 
-        master.title("Interaktywny Graf")
+        master.title("Graf")
         master.geometry("1100x650")
         master.configure(padx=10, pady=10)
 
