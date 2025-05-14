@@ -1,0 +1,7 @@
+1) Za pomocą heapq stwórz kolejkę priorytetową, w której dodasz kilka zadań zapisanych jako krotki: (priorytet, nazwa_zadania). 
+Następnie wyciągaj zadania po kolei i wypisz w jakiej kolejności zostaną wykonane.
+
+2) Korzystając z grafu zaimplementowanego przez klasę Graph, napisz funkcję, 
+która dla podanego wierzchołka zwraca listę sąsiadów, do których prowadzi krawędź o wadze mniejszej niż 5.
+
+3) Napisz metodę, która dla grafu reprezentowanego listą sąsiedztwa zwróci stopień danego wierzchołka (czyli liczbę sąsiadów).
